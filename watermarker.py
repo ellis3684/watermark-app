@@ -1,9 +1,10 @@
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 from PIL import Image, UnidentifiedImageError, ImageDraw, ImageFont, ImageOps
 
 
 class Watermarker:
     """All watermark functionality of the watermark app is contained within this class."""
+
     def __init__(self):
         # All attributes are empty to begin with.
         self.base_image = None
@@ -22,6 +23,7 @@ class Watermarker:
             image = Image.open(filename).convert("RGBA")
             self.base_image = ImageOps.exif_transpose(image)
         except UnidentifiedImageError:
+            messagebox.showerror(title='Error', message='Please upload the right image format!')
             raise Exception("Sorry, that's not an image file. Only image files may be uploaded.")
 
     def upload_watermark_photo(self):
@@ -32,6 +34,7 @@ class Watermarker:
             watermark_image = Image.open(filename).convert("RGBA")
             self.watermark_image = ImageOps.exif_transpose(watermark_image)
         except UnidentifiedImageError:
+            messagebox.showerror(title='Error', message='Please upload the right image format!')
             raise Exception("Sorry, that's not an image file. Only image files may be uploaded.")
         else:
             self.mark_is_image = True
@@ -86,7 +89,7 @@ class Watermarker:
             overlay_image = Image.new("RGBA", (image_width, image_height), (255, 255, 255, 0))
             draw = ImageDraw.Draw(overlay_image)
             text = self.watermark_text
-            font_size = int(((image_width + image_height) / 2) // 12)
+            font_size = int(((image_width + image_height) / 2) // 18)
             font = ImageFont.truetype("segoeui.ttf", font_size)
             mark_width, mark_height = draw.textsize(text, font)
             x, y = self.set_mark_location(image_width, image_height, mark_width, mark_height)

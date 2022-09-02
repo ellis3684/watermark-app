@@ -1,4 +1,4 @@
-from tkinter import ttk, StringVar
+from tkinter import ttk, StringVar, messagebox
 from ttkthemes import ThemedTk
 from watermarker import Watermarker
 
@@ -53,6 +53,7 @@ def get_text():
     user as to what the current step is."""
     text = watermark_text.get()
     if len(text) == 0:
+        messagebox.showerror(title='Error', message='Please insert a text!')
         raise Exception("You didn't input any text.")
     color = text_color.get()
     watermarker.get_text(text)
@@ -76,8 +77,9 @@ def get_location():
     user did not select a watermark. This also enables/disables buttons on the GUI, and changes the GUI label font
     colors, to provide direction to the user as to what the current step is."""
     location = location_choice.get()
-    print(location)
+    # print(location)
     if location == "":
+        messagebox.showerror(title='Error', message='No location selected!')
         raise Exception("You didn't select a location for your watermark.")
     watermarker.get_location(location)
     for radio_button in radio_buttons:
@@ -96,7 +98,7 @@ def mark_image():
 
 # Creation of the main GUI window using a Tk theme.
 window = ThemedTk(theme="breeze")
-window.title("Make Your Mark - The Watermark App - by Corey Ellis")
+window.title("Make Your Mark - The Watermark App - by Ugochukwu Benjamin")
 window.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
 # Creation of the Watermarker class instance.
 watermarker = Watermarker()
